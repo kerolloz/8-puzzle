@@ -2,11 +2,10 @@
   <tr>
     <Tile
       v-for="(tile, index) in row"
-      :tileName="tile"
+      :tileNumber="tile"
       :key="tile"
       :rowNumber="rowNumber"
       :columnNumber="index"
-      v-on:tile-clicked="$emit('tile-clicked', $event)"
     />
   </tr>
 </template>
@@ -30,5 +29,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

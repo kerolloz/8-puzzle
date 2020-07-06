@@ -3,18 +3,23 @@
     class="tile"
     :row-number="rowNumber"
     :column-number="columnNumber"
-    @click="$emit('tile-clicked', { x: rowNumber, y: columnNumber })"
-    :class="{ 'blank-tile': tileName === '' }"
+    @click="$parent.$emit('tile-clicked', { x: rowNumber, y: columnNumber })"
+    :class="{ 'blank-tile': tileNumber === BLANK_NUMBER }"
   >
-    {{ tileName }}
+    {{ tileNumber === BLANK_NUMBER ? "" : tileNumber }}
   </td>
 </template>
 
 <script>
+import { BLANK_NUMBER } from "@/assets/board";
+
 export default {
+  data() {
+    return { BLANK_NUMBER };
+  },
   props: {
-    tileName: {
-      type: String,
+    tileNumber: {
+      type: Number,
       required: true,
     },
     rowNumber: {
@@ -34,6 +39,7 @@ export default {
   padding: 40px;
   font-size: 30px;
   border: 1px solid black;
+  border-radius: 5px;
   background-color: #333;
   color: #fff;
   user-select: none;
