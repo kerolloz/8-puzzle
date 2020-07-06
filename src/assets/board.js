@@ -1,3 +1,5 @@
+export const BLANK_NUMBER = 9;
+
 /**
  * only works when arr.length is divisble by chunkSize
  * @param {Array} arr the array you want to divide into array of subarrays of size chunkSize
@@ -19,26 +21,42 @@ export function swapPoints(board, a, b) {
   [board[a.x][a.y], board[b.x][b.y]] = [board[b.x][b.y], board[a.x][a.y]];
 }
 
-export const BLANK_NUMBER = 9;
+// https://math.stackexchange.com/questions/293527/how-to-check-if-a-8-puzzle-is-solvable
+function isSolvable(board) {
+  let inversions = 0;
+  for (let i = 0; i < board.length; i++)
+    for (let j = i + 1; j < board.length; j++)
+      if (
+        board[i] !== BLANK_NUMBER &&
+        board[j] !== BLANK_NUMBER &&
+        board[i] > board[j]
+      )
+        inversions++;
+
+  return inversions % 2 == 0;
+}
 
 export function getBoard(shuffled = false) {
   const board = Array.from({ length: 9 }, (_, i) => i + 1);
-  if (shuffled) shuffleArray(board);
+  if (shuffled) {
+    shuffleArray(board);
+    while (!isSolvable(board)) shuffleArray(board);
+  }
   return chunk(board, 3);
 }
 
-export const isSamePoint = (a, b) => {
+export function isSamePoint(a, b) {
   return a.x == b.x && a.y == b.y;
-};
+}
 
-export const addPoints = (a, b) => {
+export function addPoints(a, b) {
   return { x: a.x + b.x, y: a.y + b.y };
-};
+}
 
-export const findBlank = (board) => {
+export function findBlank(board) {
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       if (board[i][j] == BLANK_NUMBER) return { x: i, y: j };
     }
   }
-};
+}

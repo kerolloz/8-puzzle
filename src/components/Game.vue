@@ -15,7 +15,7 @@
     <span class="game-state">
       {{ totalMoves }} Move{{ totalMoves !== 1 ? "s" : "" }}
     </span>
-    <span class="game-state">{{ isSolved ? "Great Job ✅" : "" }}</span>
+    <span class="game-state" v-if="isSolved">Great Job ✅</span>
   </div>
 </template>
 
@@ -43,6 +43,7 @@ export default {
   },
   computed: {
     isSolved() {
+      console.log("check");
       for (let i = 0; i < 3; i++)
         for (let j = 0; j < 3; j++)
           if (this.board[i][j] !== correctBoard[i][j]) return false;
@@ -65,6 +66,7 @@ export default {
         const point = addPoints(clickedTile, move);
         if (isSamePoint(point, this.blank)) {
           swapPoints(this.board, clickedTile, this.blank);
+          this.$set(this.board, this.board); // trigger change in board (triggers isSolved)
           this.blank = clickedTile;
           this.totalMoves++;
           break;
