@@ -1,6 +1,10 @@
 # 8-Puzzle Game
 
+[![Build Status](https://travis-ci.com/kerolloz/8-puzzle.svg?branch=master)](https://travis-ci.com/kerolloz/8-puzzle)
+
 > A simple VueJS game
+
+[**https://kerolloz.github.io/8-puzzle/**](https://kerolloz.github.io/8-puzzle/)
 
 ![demo](./demo.gif)
 
