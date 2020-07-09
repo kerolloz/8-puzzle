@@ -6,7 +6,9 @@
 
 [**https://kerolloz.github.io/8-puzzle/**](https://kerolloz.github.io/8-puzzle/)
 
-![demo](./demo.gif)
+<div align="center">
+  <img alt="demo" src="./demo.gif" width="350"/>
+</div>
 
 ## Project setup
 
