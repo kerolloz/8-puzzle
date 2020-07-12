@@ -1,6 +1,6 @@
 # 8-Puzzle Game
 
-[![Build Status](https://travis-ci.com/kerolloz/8-puzzle.svg?branch=master)](https://travis-ci.com/kerolloz/8-puzzle)
+[![Build Status](https://travis-ci.com/gameric/8-puzzle.svg?branch=master)](https://travis-ci.com/gameric/8-puzzle)
 
 > A simple VueJS game
 
