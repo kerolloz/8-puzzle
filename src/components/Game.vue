@@ -1,27 +1,37 @@
 <template>
-  <div class="board-container">
+  <div class="game-container">
     <h1 class="title">8-Puzzle Game</h1>
     <table class="board-table" :class="{ solved: isSolved }">
       <tbody>
-        <Row
-          v-for="(row, index) in board"
-          :key="row.toString()"
-          :row="row"
-          :rowNumber="index"
-          v-on:tile-clicked="onTileClicked"
-        />
+        <tr v-for="(row, rowIndex) in board" :key="rowIndex">
+          <Tile
+            v-for="(tile, index) in row"
+            :tileNumber="tile"
+            :key="tile"
+            :rowNumber="rowIndex"
+            :columnNumber="index"
+            v-on:tile-clicked="onTileClicked"
+          />
+        </tr>
       </tbody>
     </table>
-    <div class="state-container game-state">
+    <div class="state-container">
       <span>{{ timer }} Second{{ timer !== 1 ? "s" : "" }} </span>
-      <span> {{ totalMoves }} Move{{ totalMoves !== 1 ? "s" : "" }} </span>
+      <span> {{ moves }} Move{{ moves !== 1 ? "s" : "" }} </span>
     </div>
-    <span class="game-state green" v-if="isSolved">Great Job ✅</span>
+    <div v-if="isSolved">
+      <button @click="$emit('new-game')" class="new-game">
+        New Game?
+      </button>
+    </div>
+    <a href="https://github.com/gameric/8-puzzle" v-if="timer > 30 && !isSolved"
+      >Don't know how to solve?</a
+    >
   </div>
 </template>
 
 <script>
-import Row from "@/components/Row.vue";
+import Tile from "@/components/Tile.vue";
 import {
   getBoard,
   findBlank,
@@ -37,7 +47,7 @@ export default {
     return {
       board: getBoard(true),
       gameStarts: false,
-      totalMoves: 0,
+      moves: 0,
       timer: 0,
     };
   },
@@ -59,13 +69,13 @@ export default {
     },
     timer() {
       setTimeout(() => {
-        if (!this.isSolved && this.totalMoves) this.timer++;
+        if (!this.isSolved && this.moves) this.timer++;
       }, 1000);
     },
   },
   methods: {
     onTileClicked(clickedTile) {
-      if (this.isSolved || isSamePoint(clickedTile, this.blank)) return; // do nothing
+      if (this.isSolved || isSamePoint(clickedTile, this.blank)) return;
       this.gameStarts = true;
       const moves = [
         { x: 1, y: 0 },
@@ -75,27 +85,29 @@ export default {
       ];
       for (const move of moves) {
         // check if moving one step in horizontal or vertical direction from the clicked tile
-        // leads to the blank tile
+        // leads to the blank tile, then this is a movable tile
         const point = addPoints(clickedTile, move);
         if (isSamePoint(point, this.blank)) {
           swapPoints(this.board, clickedTile, this.blank);
           this.$set(this.board, this.board); // trigger change in board (triggers isSolved)
           this.blank = clickedTile;
-          this.totalMoves++;
+          this.moves++;
           break;
         }
       }
     },
   },
   components: {
-    Row,
+    Tile,
   },
 };
 </script>
 
 <style scoped>
-.board-container {
-  background-color: #222;
+.game-container {
+  user-select: none;
+  color: var(--text);
+  background-color: var(--bg-dark);
   width: 100%;
   height: 100%;
   display: flex;
@@ -104,37 +116,39 @@ export default {
   justify-content: center;
 }
 
+a {
+  color: var(--text);
+}
+
 .state-container {
-  margin: 0 auto;
-  min-width: 300px;
+  min-width: 250px;
   justify-content: space-around;
   display: flex;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: var(--bg-light);
+  padding: 10px;
+  font-size: 20px;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px var(--dark);
 }
 
 .board-table {
-  border: 1px solid black;
+  border: 1px solid var(--dark);
   border-radius: 5px;
+  margin: 5px;
 }
 
-.title {
-  color: #ddd;
+.new-game {
+  border-radius: 5px;
+  background-color: var(--bg-light);
+  color: var(--text);
+  padding: 10px;
+  font-size: 15px;
+  box-shadow: 1px 1px 1.5px 1.5px var(--dark);
+  border-width: 0.6px;
 }
 
 .solved {
-  background-color: rgba(50, 255, 50, 0.2);
-}
-
-.green {
-  color: rgb(0, 230, 0);
-  text-shadow: 0.3px 0.3px #222;
-}
-
-.game-state {
-  border-radius: 5px;
-  background-color: #555;
-  color: #ddd;
-  padding: 10px;
-  font-size: 20px;
-  margin-top: 20px;
+  background-color: var(--solved);
 }
 </style>

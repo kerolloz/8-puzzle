@@ -1,9 +1,7 @@
 <template>
   <td
     class="tile"
-    :row-number="rowNumber"
-    :column-number="columnNumber"
-    @click="$parent.$emit('tile-clicked', { x: rowNumber, y: columnNumber })"
+    @click="$emit('tile-clicked', { x: rowNumber, y: columnNumber })"
     :class="{ 'blank-tile': tileNumber === BLANK_NUMBER }"
   >
     {{ tileNumber === BLANK_NUMBER ? "" : tileNumber }}
@@ -36,21 +34,21 @@ export default {
 
 <style scoped>
 .tile {
-  padding: 40px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
   font-size: 30px;
   border: 1px solid black;
   border-radius: 5px;
-  background-color: #333;
-  color: #fff;
-  user-select: none;
+  background-color: var(--bg);
   cursor: pointer;
 }
 
 .tile:hover:not(.blank-tile) {
-  background-color: #222;
+  background-color: var(--bg-dark);
 }
 
 .blank-tile {
-  background-color: #444;
+  background-color: var(--bg-light);
 }
 </style>

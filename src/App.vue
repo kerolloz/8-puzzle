@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <Game />
+    <!-- a simple trick to reload the component -->
+    <Game :key="games" v-on:new-game="games++" />
   </div>
 </template>
 
@@ -8,6 +9,9 @@
 import Game from "./components/Game.vue";
 
 export default {
+  data() {
+    return { games: 0 };
+  },
   components: {
     Game,
   },
@@ -27,5 +31,14 @@ body,
 #app {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --dark: #111;
+  --bg-dark: #222;
+  --bg: #333;
+  --bg-light: #444;
+  --text: #ddd;
+  --solved: rgba(50, 255, 50, 0.2);
 }
 </style>
