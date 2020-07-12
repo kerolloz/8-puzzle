@@ -4,7 +4,7 @@
 
 > A simple VueJS game
 
-[**https://kerolloz.github.io/8-puzzle/**](https://kerolloz.github.io/8-puzzle/)
+[**https://gameric.github.io/8-puzzle/**](https://gameric.github.io/8-puzzle/)
 
 <div align="center">
   <img alt="demo" src="./demo.gif" width="350"/>
